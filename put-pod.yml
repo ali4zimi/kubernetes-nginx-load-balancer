@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: put-pod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: put-pod
+  template:
+    metadata:
+      labels:
+        app: put-pod
+    spec:
+      containers:
+        - name: put-pod
+          image: azimiali/server-put:latest
+          # You can also use IfNotPresent but it might lead to old images
+          imagePullPolicy: "Always"
+          env:
+            - name: DATABASE_URI
+              value: mongodb+srv://alibabaazimi:tSqT8sll6hMta6Hp@cc-exercise.2nboky2.mongodb.net/?retryWrites=true&w=majority&appName=cc-exercise
+          ports:
+            - containerPort: 3030
