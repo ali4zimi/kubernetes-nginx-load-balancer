@@ -14,11 +14,11 @@ spec:
     spec:
       containers:
         - name: delete-pod
-          image: azimiali/server-delete:latest
+          image: azimiali/server-delete:v3
           # You can also use IfNotPresent but it might lead to old images
           imagePullPolicy: "Always"
           env:
             - name: DATABASE_URI
-              value: mongodb+srv://alibabaazimi:tSqT8sll6hMta6Hp@cc-exercise.2nboky2.mongodb.net/?retryWrites=true&w=majority&appName=cc-exercise
+              value: mongodb://root:example@mongo:27017
           ports:
             - containerPort: 3030

@@ -121,7 +121,7 @@ sudo sysctl --system
 Once you this process finishes, then you can install containerd via:
 
 ```bash
-sudo apt-get isntall -y containerd.io containernetworking-plugins
+sudo apt-get install -y containerd.io containernetworking-plugins
 ```
 
 Once containerd has been installed, you need to configure it via:
@@ -139,10 +139,10 @@ Now that contianerd is configured, we can proceed to install Kubernetes. For thi
 ```bash
 # If the directory `/etc/apt/keyrings` does not exist, it should be created before the curl command, read the note below.
 # sudo mkdir -p -m 755 /etc/apt/keyrings
-curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 
 # This overwrites any existing configuration in /etc/apt/sources.list.d/kubernetes.list
-echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.29/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
 
 sudo apt-get update
 sudo apt-get install -y kubelet kubeadm kubectl
@@ -156,7 +156,7 @@ Once the previous step has completed, we can move to initialize the cluster by r
 
 ```bash
 # Sets the master node and initializes the K8s API Server, Proxy and other components
-sudo kubeadm init --pod-network-cidr=10.244.0.0/16 --cri-socket=unix:///var/run/containerd/containerd.sock
+sudo kubeadm init --pod-network-cidr=10.128.0.0/16 --cri-socket=unix:///var/run/containerd/containerd.sock
 ```
 
 After the previous command succeds, we want to execute `kubectl` in user mode, hence we need to grant our user access to the `admin token` used by K8s to communicate by:
@@ -176,7 +176,7 @@ kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Doc
 ```
 
 > Since we are running this exercise without other nodes, you also need to allow running pods on the master node via:
-> `kubectl taint nodes --all node-role.kubernetes.io/master-``
+> `kubectl taint nodes --all node-role.kubernetes.io/master-`
 
 > If you want to use a multi-node setup, you can follow the installation procedure in the other node and later generate a token
 > for them to join your cluster via: `sudo kubeadm token create --print-join-command`
