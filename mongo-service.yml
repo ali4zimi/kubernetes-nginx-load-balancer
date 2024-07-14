@@ -5,7 +5,7 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - name: mongo-pod
+    - name: mongo-service
       port: 27017
       targetPort: 27017
       protocol: TCP

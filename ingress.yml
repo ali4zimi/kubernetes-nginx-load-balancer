@@ -1,0 +1,54 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: nginx-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      internal;
+      rewrite ^ $original_uri break;
+    nginx.ingress.kubernetes.io/server-snippet: |
+      location /api/books {
+        if ( $request_method = GET) {
+          set $target_destination '/_get';
+        }
+        if ( $request_method = POST) {
+          set $target_destination '/_post';
+        }
+        if ( $request_method = PUT) {
+          set $target_destination '/_put';
+        }
+        if ( $request_method = DELETE) {
+          set $target_destination '/_delete';
+        }
+
+        set $original_uri $uri;
+        rewrite ^ $target_destination last;
+      }
+    
+
+spec:
+  rules:
+  - host: myservice.foo.org
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: frontend-service
+          servicePort: 80
+      - path: /_get
+        backend:
+          serviceName: get-service
+          servicePort: 8080
+      - path: /_post
+        backend:
+          serviceName: post-service
+          servicePort: 8080
+      - path: /_put
+        backend:
+          serviceName: put-service
+          servicePort: 8080
+      - path: /_delete
+        backend:
+          serviceName: delete-service
+          servicePort: 8080

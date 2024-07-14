@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: put-service
+  name: frontend-service
 spec:
   type: ClusterIP
   ports:
-    - name: put-pod
+    - name: frontend-service
       port: 8080
       targetPort: 3030
       protocol: TCP
   selector:
-    app: put-pod
+    app: frontend-pod

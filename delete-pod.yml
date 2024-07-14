@@ -19,6 +19,6 @@ spec:
           imagePullPolicy: "Always"
           env:
             - name: DATABASE_URI
-              value: mongodb://root:example@mongo:27017
+              value: mongodb://mongo-service:27017
           ports:
             - containerPort: 3030

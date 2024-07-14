@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: put-pod
+  name: frontend-pod
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: put-pod
+      app: frontend-pod
   template:
     metadata:
       labels:
-        app: put-pod
+        app: frontend-pod
     spec:
       containers:
-        - name: put-pod
-          image: azimiali/server-put:v3
+        - name: frontend-pod
+          image: azimiali/frontend:v3
           # You can also use IfNotPresent but it might lead to old images
           imagePullPolicy: "Always"
           env:
             - name: DATABASE_URI
-              value: mongodb://root:example@mongo:27017
+              value: mongodb://mongo-service:27017
           ports:
             - containerPort: 3030
